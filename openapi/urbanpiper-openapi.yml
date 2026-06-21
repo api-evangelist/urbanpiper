@@ -1,0 +1,603 @@
+openapi: 3.0.1
+info:
+  title: UrbanPiper POS Integration API
+  description: >-
+    UrbanPiper's POS-integration REST API connects a restaurant POS/ERP to online
+    ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat,
+    Amazon, Careem and others). It covers store/location management, catalogue and
+    menu push, store and item/option availability toggles, order status updates and
+    webhook registration. Authentication is a static API key passed as
+    `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass
+    the `X-UPR-Biz-Id` header.
+  termsOfService: https://www.urbanpiper.com/terms-of-service
+  contact:
+    name: UrbanPiper POS Support
+    email: pos.support@urbanpiper.com
+    url: https://api-docs.urbanpiper.com/downstream/
+  version: v1
+servers:
+  - url: https://pos-int.urbanpiper.com
+    description: Staging / sandbox environment. Production base URL is shared during certification.
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Stores
+    description: Create, update and toggle stores/locations.
+  - name: Menu
+    description: Catalogue push and item/option availability.
+  - name: Orders
+    description: Order status updates and stock-out on active orders.
+  - name: Webhooks
+    description: Register and manage outbound webhook endpoints.
+  - name: Aggregator
+    description: Aggregator-specific feature actions.
+paths:
+  /external/api/v1/stores/:
+    post:
+      operationId: createUpdateStore
+      tags:
+        - Stores
+      summary: Create or update stores
+      description: >-
+        Create or update one or more store/location records in bulk. Each store
+        carries name, city, ref_id, address, active and ordering_enabled flags,
+        included_platforms, platform_data and timings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoreUpsertRequest'
+      responses:
+        '200':
+          description: Stores accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/location/:
+    post:
+      operationId: createUpdateLocationHub
+      tags:
+        - Stores
+      summary: Create or update a location (Hub)
+      description: >-
+        Create or update a location on the Hub stack using the POS/ERP
+        location_ref_id as the unique store identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationUpsertRequest'
+      responses:
+        '200':
+          description: Location accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/inventory/locations/{location_ref_id}/:
+    post:
+      operationId: addUpdateMenu
+      tags:
+        - Menu
+      summary: Add or update menu (catalogue push)
+      description: >-
+        Push the catalogue (categories, items, option groups, options, taxes,
+        charges) for a brand. Use a location_ref_id of -1 to update at the master
+        catalogue level. Flush flags reset previously available catalogue objects.
+      parameters:
+        - name: location_ref_id
+          in: path
+          required: true
+          description: >-
+            Store reference ID in the POS/ERP system. Pass -1 to update the master
+            catalogue level only.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuPushRequest'
+      responses:
+        '200':
+          description: Menu accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/items/:
+    post:
+      operationId: addUpdateItemsHub
+      tags:
+        - Menu
+      summary: Add or update items (Hub)
+      description: >-
+        Bulk add or update catalogue items on the Hub stack. The limit on the
+        number of items/options for this action is 400 per request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemsUpsertRequest'
+      responses:
+        '200':
+          description: Items accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/inventory/categories/timing-groups/:
+    post:
+      operationId: createCategoryTimingGroups
+      tags:
+        - Menu
+      summary: Create category timing groups
+      description: Define timing groups that control when categories are available.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Timing groups accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/orders/{id}/status/:
+    put:
+      operationId: updateOrderStatus
+      tags:
+        - Orders
+      summary: Update order status
+      description: >-
+        Update the status of a relayed order. Expected statuses are
+        Acknowledged, Food Ready, Dispatched, Completed and Cancelled. For
+        self/merchant-delivered orders, rider_name and rider_phone are passed when
+        marking the order as Dispatched.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: UrbanPiper order ID.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdateRequest'
+      responses:
+        '200':
+          description: Order status updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/orders/items-oos/:
+    post:
+      operationId: markOrderItemsOutOfStock
+      tags:
+        - Orders
+      summary: Mark order item(s) out of stock
+      description: >-
+        Mark one or more items on an active order as out of stock (stock-out),
+        used where the aggregator supports order modification.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Stock-out request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/aggregator/zomato/feature-action/:
+    post:
+      operationId: zomatoFeatureAction
+      tags:
+        - Aggregator
+      summary: Zomato feature actions
+      description: >-
+        Trigger Zomato-specific feature actions such as requesting an additional
+        rider for bulk orders.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Feature action enqueued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/aggregator/swiggy/feature-action/:
+    post:
+      operationId: swiggyFeatureAction
+      tags:
+        - Aggregator
+      summary: Swiggy feature actions
+      description: Trigger Swiggy-specific feature actions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Feature action enqueued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/webhooks/:
+    get:
+      operationId: listWebhooks
+      tags:
+        - Webhooks
+      summary: List webhooks
+      description: List the configured webhook endpoints for the business.
+      responses:
+        '200':
+          description: A list of webhooks.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhook
+      tags:
+        - Webhooks
+      summary: Create a webhook
+      description: Register a webhook endpoint that UrbanPiper calls to deliver callbacks.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+      responses:
+        '201':
+          description: Webhook created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/webhooks/{webhook_id}/:
+    get:
+      operationId: getWebhook
+      tags:
+        - Webhooks
+      summary: Get a webhook
+      parameters:
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: updateWebhook
+      tags:
+        - Webhooks
+      summary: Update a webhook
+      parameters:
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+      responses:
+        '200':
+          description: Webhook updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/webhooks/retry/:
+    post:
+      operationId: retryWebhookOrder
+      tags:
+        - Webhooks
+      summary: Retry webhook order delivery
+      description: Request a retry of an order webhook that was not successfully delivered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Retry enqueued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /ext/api/v1/generic/pos/rider-status/:
+    post:
+      operationId: riderStatusUpdate
+      tags:
+        - Orders
+      summary: Rider status update
+      description: Update rider status for an order (e.g. assigned, at-store, out-for-delivery).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Rider status accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /ext/api/v1/generic/pos/rider-location/:
+    post:
+      operationId: riderLiveTracking
+      tags:
+        - Orders
+      summary: Rider live location
+      description: Push the rider's live location for tracking on an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Rider location accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Static API key authentication. Pass the header as
+        `Authorization: apikey <api_username>:<api_key>`. Multi-brand requests must
+        also include the `X-UPR-Biz-Id` header identifying the business/brand.
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    StoreUpsertRequest:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Store'
+    Store:
+      type: object
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        ref_id:
+          type: string
+          description: Unique store identifier in the POS/ERP system.
+        address:
+          type: string
+        active:
+          type: boolean
+        ordering_enabled:
+          type: boolean
+        included_platforms:
+          type: array
+          items:
+            type: string
+        platform_data:
+          type: array
+          items:
+            type: object
+        timings:
+          type: array
+          items:
+            type: object
+    LocationUpsertRequest:
+      type: object
+      properties:
+        location_ref_id:
+          type: string
+          description: The unique identifier of the store in the POS/ERP system.
+        name:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        active:
+          type: boolean
+    MenuPushRequest:
+      type: object
+      properties:
+        flush_categories:
+          type: boolean
+          description: Remove all previously available categories.
+        flush_items:
+          type: boolean
+          description: Remove all previously available items.
+        flush_options:
+          type: boolean
+          description: Remove all previously available options.
+        flush_option_groups:
+          type: boolean
+          description: Remove all previously available option groups.
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        option_groups:
+          type: array
+          items:
+            type: object
+        options:
+          type: array
+          items:
+            type: object
+        taxes:
+          type: array
+          items:
+            type: object
+        charges:
+          type: array
+          items:
+            type: object
+    ItemsUpsertRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Category:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        sort_order:
+          type: integer
+        active:
+          type: boolean
+    Item:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        sort_order:
+          type: integer
+        recommended:
+          type: boolean
+        available:
+          type: boolean
+          description: >-
+            Store-level availability. When set to false on a store-level request,
+            only the item's availability at the store is turned off.
+    OrderStatusUpdateRequest:
+      type: object
+      required:
+        - new_status
+      properties:
+        new_status:
+          type: string
+          description: Status to which the order needs to be changed.
+          enum:
+            - Acknowledged
+            - Food Ready
+            - Dispatched
+            - Completed
+            - Cancelled
+        message:
+          type: string
+        extra:
+          type: object
+          properties:
+            rider_name:
+              type: string
+              description: Rider name, passed for self/merchant-delivered orders when marking Dispatched.
+            rider_phone:
+              type: string
+              description: Rider phone, passed for self/merchant-delivered orders when marking Dispatched.
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        event:
+          type: string
+        active:
+          type: boolean

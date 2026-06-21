@@ -1,0 +1,74 @@
+aid: urbanpiper
+name: UrbanPiper
+review:
+  question: Does UrbanPiper expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. UrbanPiper's asynchronous surface is delivered
+    via HTTP webhooks (POST callbacks to a partner-registered endpoint), not via
+    WebSocket or Server-Sent Events. Webhooks are a standard request/response HTTP
+    transport modeled through the REST/OpenAPI surface, so no AsyncAPI artifact was
+    warranted at review time.
+findings:
+  summary: |
+    UrbanPiper does not publish a documented public WebSocket API. The
+    POS-integration platform exposes only REST (HTTPS) endpoints under
+    https://pos-int.urbanpiper.com (staging; production base URL shared at
+    certification), using static API key authentication
+    (Authorization: apikey <username>:<key>) with an X-UPR-Biz-Id header for
+    multi-brand requests. Real-time order relay, item-action callbacks and rider
+    status updates are pushed to the POS via outbound HTTP webhooks registered
+    through the /external/api/v1/webhooks/ endpoints, with a webhook retry endpoint
+    and a documented webhook circuit breaker. No realtime bidirectional WebSocket
+    (ws:// or wss://) endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://pos-int.urbanpiper.com
+      documented: true
+    - protocol: Webhook
+      scheme: https
+      note: Outbound HTTP POST callbacks (order relay, item actions, rider status) to a partner-registered URL, identified by the X-UPR-Biz-Id header. Standard request/response HTTP, not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in UrbanPiper's POS-integration API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST https://pos-int.urbanpiper.com/external/api/v1/stores/
+    - POST https://pos-int.urbanpiper.com/hub/api/v1/location/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/inventory/locations/{location_ref_id}/
+    - POST https://pos-int.urbanpiper.com/hub/api/v1/items/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/inventory/categories/timing-groups/
+    - PUT  https://pos-int.urbanpiper.com/external/api/v1/orders/{id}/status/
+    - POST https://pos-int.urbanpiper.com/hub/api/v1/orders/items-oos/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/aggregator/zomato/feature-action/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/aggregator/swiggy/feature-action/
+    - GET  https://pos-int.urbanpiper.com/external/api/v1/webhooks/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/webhooks/
+    - GET  https://pos-int.urbanpiper.com/external/api/v1/webhooks/{webhook_id}/
+    - PUT  https://pos-int.urbanpiper.com/external/api/v1/webhooks/{webhook_id}/
+    - POST https://pos-int.urbanpiper.com/external/api/v1/webhooks/retry/
+    - POST https://pos-int.urbanpiper.com/ext/api/v1/generic/pos/rider-status/
+    - POST https://pos-int.urbanpiper.com/ext/api/v1/generic/pos/rider-location/
+sources:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+    note: POS-integration program overview; lists REST base URL and webhook-based callbacks, no WebSocket.
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/order-management/order-status-update
+    type: APIReference
+    note: Order status update is a PUT to /external/api/v1/orders/{id}/status/.
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/getting-started/webhooks-callbacks
+    type: Documentation
+    note: Asynchronous events delivered via HTTP webhooks with X-UPR-Biz-Id header; no WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists and the asynchronous surface is plain HTTP
+    webhooks rather than SSE or WebSocket, so no AsyncAPI document was authored. The
+    apis.yml catalogs the documented REST and webhook surfaces across Catalog/Menu,
+    Orders, Stores/Locations, Item Availability and Webhooks.

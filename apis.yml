@@ -1,0 +1,141 @@
+aid: urbanpiper
+url: https://raw.githubusercontent.com/api-evangelist/urbanpiper/refs/heads/main/apis.yml
+name: UrbanPiper
+kind: company
+description: UrbanPiper is a restaurant commerce platform whose POS-integration API
+  connects a restaurant's POS/ERP to online ordering aggregators (Swiggy, Zomato,
+  UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and more). The REST API
+  covers catalogue/menu management, store and item/option availability, order relay
+  and order status updates, and outbound webhooks, powering the Prime, Hub and Atlas
+  products.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Restaurants
+- Food Delivery
+- Ordering
+- POS
+- Aggregators
+- Commerce
+created: '2026-06-21'
+modified: '2026-06-21'
+specificationVersion: '0.19'
+apis:
+- aid: urbanpiper:catalog-menu
+  name: UrbanPiper Catalog & Menu API
+  tags:
+  - Catalog
+  - Menu
+  - Categories
+  - Items
+  - Options
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.urbanpiper.com/downstream/
+  baseURL: https://pos-int.urbanpiper.com
+  properties:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/menu/add-update-menu
+    type: APIReference
+  - url: openapi/urbanpiper-openapi.yml
+    type: OpenAPI
+  description: Create and update the full restaurant catalogue (categories, items,
+    option groups, options, taxes and charges) for a brand and push it to the
+    connected aggregator platforms, with flush operations for resetting catalogue
+    data per brand or store.
+- aid: urbanpiper:orders
+  name: UrbanPiper Orders API
+  tags:
+  - Orders
+  - Order Relay
+  - Order Status
+  - Webhooks
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.urbanpiper.com/downstream/
+  baseURL: https://pos-int.urbanpiper.com
+  properties:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/order-management/order-status-update
+    type: APIReference
+  - url: openapi/urbanpiper-openapi.yml
+    type: OpenAPI
+  description: Receive aggregator orders relayed to the POS via webhook and push order
+    status updates (Acknowledged, Food Ready, Dispatched, Completed, Cancelled) back
+    to UrbanPiper, including self-delivery rider details and webhook retry.
+- aid: urbanpiper:stores-locations
+  name: UrbanPiper Stores & Locations API
+  tags:
+  - Stores
+  - Locations
+  - Onboarding
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.urbanpiper.com/downstream/
+  baseURL: https://pos-int.urbanpiper.com
+  properties:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/stores/store-toggle
+    type: APIReference
+  - url: openapi/urbanpiper-openapi.yml
+    type: OpenAPI
+  description: Create and update store/location records and map each location to a
+    brand using the POS/ERP reference ID, so that menus and orders can be synced per
+    location across aggregator platforms.
+- aid: urbanpiper:item-availability
+  name: UrbanPiper Item Availability API
+  tags:
+  - Availability
+  - Stock Out
+  - Item Toggle
+  - Store Toggle
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.urbanpiper.com/downstream/
+  baseURL: https://pos-int.urbanpiper.com
+  properties:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/menu/menu-toggle
+    type: APIReference
+  - url: openapi/urbanpiper-openapi.yml
+    type: OpenAPI
+  description: Toggle stores on and off and mark items and options in or out of stock
+    in real time during operational hours, including marking items out-of-stock on
+    an active order, with availability changes propagated to the aggregator platforms.
+- aid: urbanpiper:webhooks
+  name: UrbanPiper Webhooks API
+  tags:
+  - Webhooks
+  - Callbacks
+  - Order Relay
+  - Rider Status
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://api-docs.urbanpiper.com/downstream/
+  baseURL: https://pos-int.urbanpiper.com
+  properties:
+  - url: https://api-docs.urbanpiper.com/downstream/
+    type: Documentation
+  - url: https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/getting-started/webhooks-callbacks
+    type: APIReference
+  - url: openapi/urbanpiper-openapi.yml
+    type: OpenAPI
+  description: Register and manage webhook endpoints that UrbanPiper calls to relay
+    orders, item-action callbacks and rider status updates to the POS, with an
+    X-UPR-Biz-Id header identifying the brand and a webhook retry endpoint.
+common:
+- type: GitHubOrganization
+  url: https://github.com/urbanpiper
+- type: LinkedIn
+  url: https://www.linkedin.com/company/urbanpiper
+- type: Website
+  url: https://www.urbanpiper.com
+- type: Documentation
+  url: https://api-docs.urbanpiper.com/downstream/
+- type: Plans
+  url: plans/urbanpiper-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/urbanpiper-rate-limits.yml
+- type: FinOps
+  url: finops/urbanpiper-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

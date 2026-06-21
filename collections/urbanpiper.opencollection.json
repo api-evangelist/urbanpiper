@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0",
+  "info": {
+    "title": "UrbanPiper POS Integration API",
+    "description": "UrbanPiper POS-integration REST API: store/location management, catalogue and menu push, store and item/option availability, order status updates, aggregator feature actions and webhooks. Auth is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass `X-UPR-Biz-Id`.",
+    "version": "v1",
+    "schema": "https://schema.opencollection.com/opencollection/v1.0.0.json"
+  },
+  "servers": [
+    { "url": "https://pos-int.urbanpiper.com", "description": "Staging / sandbox. Production base URL shared at certification." }
+  ],
+  "auth": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "Authorization",
+    "format": "apikey <api_username>:<api_key>",
+    "description": "Static API key. Multi-brand requests also pass the X-UPR-Biz-Id header."
+  },
+  "variables": {
+    "baseUrl": "https://pos-int.urbanpiper.com",
+    "api_username": "",
+    "api_key": "",
+    "biz_id": "",
+    "location_ref_id": "",
+    "order_id": "",
+    "webhook_id": ""
+  },
+  "groups": [
+    {
+      "name": "Stores & Locations",
+      "requests": [
+        {
+          "name": "Create/Update Stores",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/stores/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "locations": [ { "name": "Sample Store", "city": "Bengaluru", "ref_id": "POS-STORE-1", "address": "123 Main St", "active": true, "ordering_enabled": true, "included_platforms": ["swiggy", "zomato"], "platform_data": [], "timings": [] } ] }
+        },
+        {
+          "name": "Create/Update Location (Hub)",
+          "method": "POST",
+          "url": "{{baseUrl}}/hub/api/v1/location/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "location_ref_id": "POS-STORE-1", "name": "Sample Store", "city": "Bengaluru", "address": "123 Main St", "active": true }
+        }
+      ]
+    },
+    {
+      "name": "Catalog & Menu",
+      "requests": [
+        {
+          "name": "Add/Update Menu (Catalogue Push)",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/inventory/locations/{{location_ref_id}}/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "flush_categories": false, "flush_items": false, "flush_options": false, "flush_option_groups": false, "categories": [], "items": [], "option_groups": [], "options": [], "taxes": [], "charges": [] }
+        },
+        {
+          "name": "Add/Update Items (Hub)",
+          "method": "POST",
+          "url": "{{baseUrl}}/hub/api/v1/items/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "items": [] }
+        },
+        {
+          "name": "Create Category Timing Groups",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/inventory/categories/timing-groups/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "requests": [
+        {
+          "name": "Update Order Status",
+          "method": "PUT",
+          "url": "{{baseUrl}}/external/api/v1/orders/{{order_id}}/status/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "new_status": "Acknowledged", "message": "", "extra": { "rider_name": "", "rider_phone": "" } }
+        },
+        {
+          "name": "Mark Order Items Out of Stock",
+          "method": "POST",
+          "url": "{{baseUrl}}/hub/api/v1/orders/items-oos/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        },
+        {
+          "name": "Rider Status Update",
+          "method": "POST",
+          "url": "{{baseUrl}}/ext/api/v1/generic/pos/rider-status/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        },
+        {
+          "name": "Rider Live Location",
+          "method": "POST",
+          "url": "{{baseUrl}}/ext/api/v1/generic/pos/rider-location/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        }
+      ]
+    },
+    {
+      "name": "Aggregator Feature Actions",
+      "requests": [
+        {
+          "name": "Zomato Feature Action",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/aggregator/zomato/feature-action/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        },
+        {
+          "name": "Swiggy Feature Action",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/aggregator/swiggy/feature-action/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "requests": [
+        {
+          "name": "List Webhooks",
+          "method": "GET",
+          "url": "{{baseUrl}}/external/api/v1/webhooks/",
+          "headers": { "X-UPR-Biz-Id": "{{biz_id}}" }
+        },
+        {
+          "name": "Create Webhook",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/webhooks/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "url": "https://example.com/callbacks/urbanpiper", "event": "order", "active": true }
+        },
+        {
+          "name": "Get Webhook",
+          "method": "GET",
+          "url": "{{baseUrl}}/external/api/v1/webhooks/{{webhook_id}}/",
+          "headers": { "X-UPR-Biz-Id": "{{biz_id}}" }
+        },
+        {
+          "name": "Update Webhook",
+          "method": "PUT",
+          "url": "{{baseUrl}}/external/api/v1/webhooks/{{webhook_id}}/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": { "url": "https://example.com/callbacks/urbanpiper", "event": "order", "active": true }
+        },
+        {
+          "name": "Retry Webhook Order",
+          "method": "POST",
+          "url": "{{baseUrl}}/external/api/v1/webhooks/retry/",
+          "headers": { "Content-Type": "application/json", "X-UPR-Biz-Id": "{{biz_id}}" },
+          "body": {}
+        }
+      ]
+    }
+  ]
+}

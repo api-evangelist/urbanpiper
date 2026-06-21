@@ -1,0 +1,122 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: UrbanPiper
+providerId: urbanpiper
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Restaurants
+- Food Delivery
+- Ordering
+- POS
+- Aggregators
+- Commerce
+- Plans
+description: >-
+  UrbanPiper sells its restaurant commerce platform (Prime, Hub, Atlas and the
+  POS-integration API) through a sales-led, subscription/SaaS model rather than a
+  public self-service price list. Pricing is quoted per outlet/brand and varies by
+  product mix, number of locations, enabled aggregator channels and region. There
+  is no published per-call or per-token API price; access to the POS-integration
+  API is granted to onboarded POS/ERP partners and brands as part of a commercial
+  agreement. Specific figures are not reconciled in this artifact.
+notes: >-
+  No public pricing page enumerates plan tiers or rates; figures are obtained via
+  the UrbanPiper sales/onboarding team. Reconcile against an actual quote during
+  reconciliation.
+sources:
+- https://www.urbanpiper.com/
+- https://www.urbanpiper.com/hub
+- https://api-docs.urbanpiper.com/downstream/
+plans:
+- id: urbanpiper-platform
+  name: Platform (Sales-Led)
+  type: subscription
+  description: >-
+    Subscription access to UrbanPiper's restaurant commerce platform and
+    POS-integration API, quoted per outlet/brand. Specific rates are negotiated
+    with sales.
+  entries:
+  - label: Platform Subscription
+    name: platform_subscription
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: POS-Integration API
+  - name: Catalog & Menu Management
+  - name: Order Relay & Status Updates
+  - name: Store & Item Availability
+  - name: Webhooks
+- id: urbanpiper-prime
+  name: Prime
+  type: subscription
+  description: >-
+    POS tool for managing online orders and inventory across aggregator channels,
+    available as Prime Web. Priced per outlet via sales.
+  entries:
+  - label: Prime Subscription
+    name: prime_subscription
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Online Order Management
+  - name: Inventory Control
+- id: urbanpiper-hub
+  name: Hub
+  type: subscription
+  description: >-
+    Integration solution that connects existing POS systems to Swiggy, Zomato,
+    UberEats, Amazon Food and a self-branded online store. Priced via sales.
+  entries:
+  - label: Hub Subscription
+    name: hub_subscription
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Aggregator Integrations
+  - name: Menu Sync
+  - name: Order Aggregation
+- id: urbanpiper-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Multi-brand, multi-region deployments for large chains with negotiated terms,
+    dedicated onboarding and support. Contact UrbanPiper sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Multi-Brand Workflow
+  - name: Dedicated Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

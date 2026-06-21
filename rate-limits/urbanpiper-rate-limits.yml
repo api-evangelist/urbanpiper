@@ -1,0 +1,61 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: UrbanPiper
+providerId: urbanpiper
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Restaurants
+- Food Delivery
+- Ordering
+- POS
+- Aggregators
+- Commerce
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  UrbanPiper's POS-integration API does not publish numeric account-wide rate
+  limits in its public documentation. It does document payload-size constraints
+  rather than per-minute request quotas: the Add/Update Items (Hub) action is
+  limited to 400 items/options per request, and bulk catalogue/store payloads are
+  required for menu, store and toggle operations. Asynchronous processing and a
+  webhook circuit breaker / retry mechanism govern callback delivery. Specific
+  per-endpoint request limits are not reconciled in this artifact.
+notes: >-
+  Verify any per-endpoint or per-account throttling values with the UrbanPiper
+  onboarding/POS support team during reconciliation; only payload-size and bulk
+  constraints are documented publicly.
+sources:
+- https://api-docs.urbanpiper.com/downstream/
+- https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/menu/add-update-menu
+responseCodes:
+  throttled: 429
+limits:
+- name: Items/Options Per Request (Hub Items)
+  scope: request
+  metric: items
+  limit: 400
+  notes: The Add/Update Items (Hub) action is limited to 400 items/options per request.
+- name: Bulk Payload Requirement
+  scope: request
+  metric: records
+  limit: bulk required
+  notes: Add/Update Stores, Add/Update Menu and Menu Toggle requests must be sent as bulk payloads; individual per-record requests are not accepted.
+- name: Request Rate (RPM)
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: No numeric per-minute request rate is published; confirm with POS support.
+policies:
+- name: Asynchronous Processing
+  description: Item/option action and catalogue requests are processed asynchronously; results are returned via callbacks rather than synchronously.
+- name: Webhook Circuit Breaker
+  description: A circuit breaker governs outbound webhook delivery; failed order webhooks can be retried via the webhook retry endpoint.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor any Retry-After guidance.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
