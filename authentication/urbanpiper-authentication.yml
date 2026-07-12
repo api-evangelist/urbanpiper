@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/urbanpiper-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Static API key authentication. Pass the header as `Authorization: apikey <api_username>:<api_key>`.
+    Multi-brand requests must also include the `X-UPR-Biz-Id` header identifying the business/brand.'
+  sources:
+  - openapi/urbanpiper-openapi.yml
