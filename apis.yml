@@ -122,6 +122,8 @@ apis:
     orders, item-action callbacks and rider status updates to the POS, with an
     X-UPR-Biz-Id header identifying the brand and a webhook retry endpoint.
 common:
+- type: AgenticAccess
+  url: agentic-access/urbanpiper-agentic-access.yml
 - type: DomainSecurity
   url: security/urbanpiper-domain-security.yml
 - type: Authentication
