@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: UrbanPiper POS Integration Aggregator API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  termsOfService: https://www.urbanpiper.com/terms-of-service
+  contact:
+    name: UrbanPiper POS Support
+    email: pos.support@urbanpiper.com
+    url: https://api-docs.urbanpiper.com/downstream/
+  version: v1
+servers:
+- url: https://pos-int.urbanpiper.com
+  description: Staging / sandbox environment. Production base URL is shared during certification.
+security:
+- apiKeyAuth: []
+tags:
+- name: Aggregator
+  description: Aggregator-specific feature actions.
+paths:
+  /external/api/v1/aggregator/zomato/feature-action/:
+    post:
+      operationId: zomatoFeatureAction
+      tags:
+      - Aggregator
+      summary: Zomato feature actions
+      description: Trigger Zomato-specific feature actions such as requesting an additional rider for bulk orders.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Feature action enqueued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/aggregator/swiggy/feature-action/:
+    post:
+      operationId: swiggyFeatureAction
+      tags:
+      - Aggregator
+      summary: Swiggy feature actions
+      description: Trigger Swiggy-specific feature actions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Feature action enqueued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Static API key authentication. Pass the header as `Authorization: apikey <api_username>:<api_key>`. Multi-brand requests must also include the `X-UPR-Biz-Id` header identifying the business/brand.'

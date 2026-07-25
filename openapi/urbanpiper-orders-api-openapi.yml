@@ -1,0 +1,161 @@
+openapi: 3.0.1
+info:
+  title: UrbanPiper POS Integration Aggregator Orders API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  termsOfService: https://www.urbanpiper.com/terms-of-service
+  contact:
+    name: UrbanPiper POS Support
+    email: pos.support@urbanpiper.com
+    url: https://api-docs.urbanpiper.com/downstream/
+  version: v1
+servers:
+- url: https://pos-int.urbanpiper.com
+  description: Staging / sandbox environment. Production base URL is shared during certification.
+security:
+- apiKeyAuth: []
+tags:
+- name: Orders
+  description: Order status updates and stock-out on active orders.
+paths:
+  /external/api/v1/orders/{id}/status/:
+    put:
+      operationId: updateOrderStatus
+      tags:
+      - Orders
+      summary: Update order status
+      description: Update the status of a relayed order. Expected statuses are Acknowledged, Food Ready, Dispatched, Completed and Cancelled. For self/merchant-delivered orders, rider_name and rider_phone are passed when marking the order as Dispatched.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: UrbanPiper order ID.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdateRequest'
+      responses:
+        '200':
+          description: Order status updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/orders/items-oos/:
+    post:
+      operationId: markOrderItemsOutOfStock
+      tags:
+      - Orders
+      summary: Mark order item(s) out of stock
+      description: Mark one or more items on an active order as out of stock (stock-out), used where the aggregator supports order modification.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Stock-out request accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /ext/api/v1/generic/pos/rider-status/:
+    post:
+      operationId: riderStatusUpdate
+      tags:
+      - Orders
+      summary: Rider status update
+      description: Update rider status for an order (e.g. assigned, at-store, out-for-delivery).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Rider status accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /ext/api/v1/generic/pos/rider-location/:
+    post:
+      operationId: riderLiveTracking
+      tags:
+      - Orders
+      summary: Rider live location
+      description: Push the rider's live location for tracking on an order.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Rider location accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    OrderStatusUpdateRequest:
+      type: object
+      required:
+      - new_status
+      properties:
+        new_status:
+          type: string
+          description: Status to which the order needs to be changed.
+          enum:
+          - Acknowledged
+          - Food Ready
+          - Dispatched
+          - Completed
+          - Cancelled
+        message:
+          type: string
+        extra:
+          type: object
+          properties:
+            rider_name:
+              type: string
+              description: Rider name, passed for self/merchant-delivered orders when marking Dispatched.
+            rider_phone:
+              type: string
+              description: Rider phone, passed for self/merchant-delivered orders when marking Dispatched.
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Static API key authentication. Pass the header as `Authorization: apikey <api_username>:<api_key>`. Multi-brand requests must also include the `X-UPR-Biz-Id` header identifying the business/brand.'

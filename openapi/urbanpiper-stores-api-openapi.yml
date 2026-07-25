@@ -1,0 +1,134 @@
+openapi: 3.0.1
+info:
+  title: UrbanPiper POS Integration Aggregator Stores API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  termsOfService: https://www.urbanpiper.com/terms-of-service
+  contact:
+    name: UrbanPiper POS Support
+    email: pos.support@urbanpiper.com
+    url: https://api-docs.urbanpiper.com/downstream/
+  version: v1
+servers:
+- url: https://pos-int.urbanpiper.com
+  description: Staging / sandbox environment. Production base URL is shared during certification.
+security:
+- apiKeyAuth: []
+tags:
+- name: Stores
+  description: Create, update and toggle stores/locations.
+paths:
+  /external/api/v1/stores/:
+    post:
+      operationId: createUpdateStore
+      tags:
+      - Stores
+      summary: Create or update stores
+      description: Create or update one or more store/location records in bulk. Each store carries name, city, ref_id, address, active and ordering_enabled flags, included_platforms, platform_data and timings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoreUpsertRequest'
+      responses:
+        '200':
+          description: Stores accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/location/:
+    post:
+      operationId: createUpdateLocationHub
+      tags:
+      - Stores
+      summary: Create or update a location (Hub)
+      description: Create or update a location on the Hub stack using the POS/ERP location_ref_id as the unique store identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationUpsertRequest'
+      responses:
+        '200':
+          description: Location accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    StoreUpsertRequest:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Store'
+    LocationUpsertRequest:
+      type: object
+      properties:
+        location_ref_id:
+          type: string
+          description: The unique identifier of the store in the POS/ERP system.
+        name:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        active:
+          type: boolean
+    Store:
+      type: object
+      properties:
+        name:
+          type: string
+        city:
+          type: string
+        ref_id:
+          type: string
+          description: Unique store identifier in the POS/ERP system.
+        address:
+          type: string
+        active:
+          type: boolean
+        ordering_enabled:
+          type: boolean
+        included_platforms:
+          type: array
+          items:
+            type: string
+        platform_data:
+          type: array
+          items:
+            type: object
+        timings:
+          type: array
+          items:
+            type: object
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Static API key authentication. Pass the header as `Authorization: apikey <api_username>:<api_key>`. Multi-brand requests must also include the `X-UPR-Biz-Id` header identifying the business/brand.'

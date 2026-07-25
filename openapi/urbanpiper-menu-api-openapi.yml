@@ -1,0 +1,187 @@
+openapi: 3.0.1
+info:
+  title: UrbanPiper POS Integration Aggregator Menu API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  termsOfService: https://www.urbanpiper.com/terms-of-service
+  contact:
+    name: UrbanPiper POS Support
+    email: pos.support@urbanpiper.com
+    url: https://api-docs.urbanpiper.com/downstream/
+  version: v1
+servers:
+- url: https://pos-int.urbanpiper.com
+  description: Staging / sandbox environment. Production base URL is shared during certification.
+security:
+- apiKeyAuth: []
+tags:
+- name: Menu
+  description: Catalogue push and item/option availability.
+paths:
+  /external/api/v1/inventory/locations/{location_ref_id}/:
+    post:
+      operationId: addUpdateMenu
+      tags:
+      - Menu
+      summary: Add or update menu (catalogue push)
+      description: Push the catalogue (categories, items, option groups, options, taxes, charges) for a brand. Use a location_ref_id of -1 to update at the master catalogue level. Flush flags reset previously available catalogue objects.
+      parameters:
+      - name: location_ref_id
+        in: path
+        required: true
+        description: Store reference ID in the POS/ERP system. Pass -1 to update the master catalogue level only.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuPushRequest'
+      responses:
+        '200':
+          description: Menu accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /hub/api/v1/items/:
+    post:
+      operationId: addUpdateItemsHub
+      tags:
+      - Menu
+      summary: Add or update items (Hub)
+      description: Bulk add or update catalogue items on the Hub stack. The limit on the number of items/options for this action is 400 per request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemsUpsertRequest'
+      responses:
+        '200':
+          description: Items accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /external/api/v1/inventory/categories/timing-groups/:
+    post:
+      operationId: createCategoryTimingGroups
+      tags:
+      - Menu
+      summary: Create category timing groups
+      description: Define timing groups that control when categories are available.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Timing groups accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
+  schemas:
+    Item:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        sort_order:
+          type: integer
+        recommended:
+          type: boolean
+        available:
+          type: boolean
+          description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    ItemsUpsertRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Category:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        sort_order:
+          type: integer
+        active:
+          type: boolean
+    MenuPushRequest:
+      type: object
+      properties:
+        flush_categories:
+          type: boolean
+          description: Remove all previously available categories.
+        flush_items:
+          type: boolean
+          description: Remove all previously available items.
+        flush_options:
+          type: boolean
+          description: Remove all previously available options.
+        flush_option_groups:
+          type: boolean
+          description: Remove all previously available option groups.
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        option_groups:
+          type: array
+          items:
+            type: object
+        options:
+          type: array
+          items:
+            type: object
+        taxes:
+          type: array
+          items:
+            type: object
+        charges:
+          type: array
+          items:
+            type: object
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Static API key authentication. Pass the header as `Authorization: apikey <api_username>:<api_key>`. Multi-brand requests must also include the `X-UPR-Biz-Id` header identifying the business/brand.'
