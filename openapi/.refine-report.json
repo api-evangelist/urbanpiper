@@ -1,0 +1,22 @@
+{
+  "provider": "urbanpiper",
+  "sources": [
+    "urbanpiper-aggregator-api-openapi.yml",
+    "urbanpiper-menu-api-openapi.yml",
+    "urbanpiper-orders-api-openapi.yml",
+    "urbanpiper-stores-api-openapi.yml",
+    "urbanpiper-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "urbanpiper-aggregator-api-openapi.yml",
+    "urbanpiper-menu-api-openapi.yml",
+    "urbanpiper-orders-api-openapi.yml",
+    "urbanpiper-stores-api-openapi.yml",
+    "urbanpiper-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
