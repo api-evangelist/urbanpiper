@@ -1,0 +1,94 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UrbanPiper POS Integration Aggregator Orders API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update order status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://pos-int.urbanpiper.com/external/api/v1/orders/:id/status/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "UrbanPiper order ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the status of a relayed order. Expected statuses are Acknowledged, Food Ready, Dispatched, Completed and Cancelled. For self/merchant-delivered orders, rider_name and rider_phone are passed when marking the order as Dispatched."
+        },
+        {
+          "info": {
+            "name": "Mark order item(s) out of stock",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/hub/api/v1/orders/items-oos/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Mark one or more items on an active order as out of stock (stock-out), used where the aggregator supports order modification."
+        },
+        {
+          "info": {
+            "name": "Rider status update",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/ext/api/v1/generic/pos/rider-status/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update rider status for an order (e.g. assigned, at-store, out-for-delivery)."
+        },
+        {
+          "info": {
+            "name": "Rider live location",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/ext/api/v1/generic/pos/rider-location/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Push the rider's live location for tracking on an order."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UrbanPiper POS Integration Aggregator API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Aggregator",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Zomato feature actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/external/api/v1/aggregator/zomato/feature-action/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger Zomato-specific feature actions such as requesting an additional rider for bulk orders."
+        },
+        {
+          "info": {
+            "name": "Swiggy feature actions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/external/api/v1/aggregator/swiggy/feature-action/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Trigger Swiggy-specific feature actions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "UrbanPiper POS Integration Aggregator Stores API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or update stores",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/external/api/v1/stores/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update one or more store/location records in bulk. Each store carries name, city, ref_id, address, active and ordering_enabled flags, included_platforms, platform_data and timings."
+        },
+        {
+          "info": {
+            "name": "Create or update a location (Hub)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pos-int.urbanpiper.com/hub/api/v1/location/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a location on the Hub stack using the POS/ERP location_ref_id as the unique store identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

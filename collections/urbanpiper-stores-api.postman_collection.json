@@ -1,0 +1,373 @@
+{
+  "item": [
+    {
+      "id": "cabd2908-5c1d-449e-9488-fbf0acfe06dd",
+      "name": "Stores",
+      "description": {
+        "content": "Create, update and toggle stores/locations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ee298a9a-309d-43cd-bcc9-9f5041deae1b",
+          "name": "Create or update stores",
+          "request": {
+            "name": "Create or update stores",
+            "description": {
+              "content": "Create or update one or more store/location records in bulk. Each store carries name, city, ref_id, address, active and ordering_enabled flags, included_platforms, platform_data and timings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "external",
+                "api",
+                "v1",
+                "stores",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e35d7e12-5342-4f25-bdd0-4fe491b76dd6",
+              "name": "Stores accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "stores",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "519b3f05-1632-482c-a745-e75268fbef46",
+              "name": "Missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "stores",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"locations\": [\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    },\n    {\n      \"name\": \"<string>\",\n      \"city\": \"<string>\",\n      \"ref_id\": \"<string>\",\n      \"address\": \"<string>\",\n      \"active\": \"<boolean>\",\n      \"ordering_enabled\": \"<boolean>\",\n      \"included_platforms\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"platform_data\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"timings\": [\n        \"<object>\",\n        \"<object>\"\n      ]\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e496c09b-2a65-4ad1-9790-8f718f3866b5",
+          "name": "Create or update a location (Hub)",
+          "request": {
+            "name": "Create or update a location (Hub)",
+            "description": {
+              "content": "Create or update a location on the Hub stack using the POS/ERP location_ref_id as the unique store identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hub",
+                "api",
+                "v1",
+                "location",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"location_ref_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"city\": \"<string>\",\n  \"address\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4ec07383-c35e-4fa7-9d67-46f8b43360bb",
+              "name": "Location accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hub",
+                    "api",
+                    "v1",
+                    "location",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"location_ref_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"city\": \"<string>\",\n  \"address\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76d000cf-c590-4367-b0e0-0bfbedc94fce",
+              "name": "Missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hub",
+                    "api",
+                    "v1",
+                    "location",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"location_ref_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"city\": \"<string>\",\n  \"address\": \"<string>\",\n  \"active\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pos-int.urbanpiper.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4aacc09d-5dbb-4925-9902-c75f0b0cd8db",
+    "name": "UrbanPiper POS Integration Aggregator Stores API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "UrbanPiper's POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.\n\nContact Support:\n Name: UrbanPiper POS Support\n Email: pos.support@urbanpiper.com",
+      "type": "text/plain"
+    }
+  }
+}

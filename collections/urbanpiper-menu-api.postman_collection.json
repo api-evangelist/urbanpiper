@@ -1,0 +1,571 @@
+{
+  "item": [
+    {
+      "id": "d985aab2-6247-4145-a719-080313427674",
+      "name": "Menu",
+      "description": {
+        "content": "Catalogue push and item/option availability.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3b8d0d77-1949-4476-9347-68a10556cc8d",
+          "name": "Add or update menu (catalogue push)",
+          "request": {
+            "name": "Add or update menu (catalogue push)",
+            "description": {
+              "content": "Push the catalogue (categories, items, option groups, options, taxes, charges) for a brand. Use a location_ref_id of -1 to update at the master catalogue level. Flush flags reset previously available catalogue objects.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "external",
+                "api",
+                "v1",
+                "inventory",
+                "locations",
+                ":location_ref_id",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "location_ref_id",
+                  "description": "(Required) Store reference ID in the POS/ERP system. Pass -1 to update the master catalogue level only."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flush_categories\": \"<boolean>\",\n  \"flush_items\": \"<boolean>\",\n  \"flush_options\": \"<boolean>\",\n  \"flush_option_groups\": \"<boolean>\",\n  \"categories\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    }\n  ],\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ],\n  \"option_groups\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"options\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"taxes\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"charges\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2212a122-92a5-4d88-b13e-6b22d7e92cf6",
+              "name": "Menu accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "inventory",
+                    "locations",
+                    ":location_ref_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "location_ref_id",
+                      "description": "(Required) Store reference ID in the POS/ERP system. Pass -1 to update the master catalogue level only."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flush_categories\": \"<boolean>\",\n  \"flush_items\": \"<boolean>\",\n  \"flush_options\": \"<boolean>\",\n  \"flush_option_groups\": \"<boolean>\",\n  \"categories\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    }\n  ],\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ],\n  \"option_groups\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"options\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"taxes\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"charges\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "509ce06a-ba5a-4cfa-9a78-582699915b7f",
+              "name": "Missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "inventory",
+                    "locations",
+                    ":location_ref_id",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "location_ref_id",
+                      "description": "(Required) Store reference ID in the POS/ERP system. Pass -1 to update the master catalogue level only."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flush_categories\": \"<boolean>\",\n  \"flush_items\": \"<boolean>\",\n  \"flush_options\": \"<boolean>\",\n  \"flush_option_groups\": \"<boolean>\",\n  \"categories\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sort_order\": \"<integer>\",\n      \"active\": \"<boolean>\"\n    }\n  ],\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ],\n  \"option_groups\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"options\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"taxes\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"charges\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "46fb8660-bcac-489e-9c2f-47e8bbf33704",
+          "name": "Add or update items (Hub)",
+          "request": {
+            "name": "Add or update items (Hub)",
+            "description": {
+              "content": "Bulk add or update catalogue items on the Hub stack. The limit on the number of items/options for this action is 400 per request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "hub",
+                "api",
+                "v1",
+                "items",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "13d6ee74-9c92-40c4-ae02-075bf255c941",
+              "name": "Items accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hub",
+                    "api",
+                    "v1",
+                    "items",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "824e5ced-0479-47d3-a97c-0c9d5ec24904",
+              "name": "Missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "hub",
+                    "api",
+                    "v1",
+                    "items",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    },\n    {\n      \"ref_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"price\": \"<number>\",\n      \"sort_order\": \"<integer>\",\n      \"recommended\": \"<boolean>\",\n      \"available\": \"<boolean>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "41c3081c-10a5-4a92-9c94-6fedaa9d4886",
+          "name": "Create category timing groups",
+          "request": {
+            "name": "Create category timing groups",
+            "description": {
+              "content": "Define timing groups that control when categories are available.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "external",
+                "api",
+                "v1",
+                "inventory",
+                "categories",
+                "timing-groups",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4b083a2b-2d75-4d56-babe-825b4317313c",
+              "name": "Timing groups accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "inventory",
+                    "categories",
+                    "timing-groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "934734c4-e7f9-4df5-8683-cc42334b7314",
+              "name": "Missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "external",
+                    "api",
+                    "v1",
+                    "inventory",
+                    "categories",
+                    "timing-groups",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://pos-int.urbanpiper.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bfac517a-dee0-4d4d-80d6-a4dd89271500",
+    "name": "UrbanPiper POS Integration Aggregator Menu API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "UrbanPiper's POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.\n\nContact Support:\n Name: UrbanPiper POS Support\n Email: pos.support@urbanpiper.com",
+      "type": "text/plain"
+    }
+  }
+}
