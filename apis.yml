@@ -31,7 +31,7 @@ tags:
 - Commerce
 created: '2026-06-21'
 modified: '2026-06-21'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: urbanpiper:urbanpiper-aggregator-api
   name: UrbanPiper Aggregator API
