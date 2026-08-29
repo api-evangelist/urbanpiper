@@ -8,6 +8,18 @@ description: UrbanPiper is a restaurant commerce platform whose POS-integration 
   covers catalogue/menu management, store and item/option availability, order relay
   and order status updates, and outbound webhooks, powering the Prime, Hub and Atlas
   products.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
