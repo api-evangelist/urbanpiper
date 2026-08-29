@@ -194,6 +194,9 @@ apis:
     url: >-
       https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/getting-started/webhooks-callbacks
 common:
+- type: CapabilityMap
+  url: capabilities/urbanpiper-capability-edges.yml
+  name: UrbanPiper Business Capability Map
 - type: AgenticAccess
   url: agentic-access/urbanpiper-agentic-access.yml
 - type: DomainSecurity

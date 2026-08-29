@@ -1,0 +1,34 @@
+slug: urbanpiper
+provider: UrbanPiper
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Agriculture & Food Production
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Orders
+  spec_file: urbanpiper-orders-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.8
+  evidence: PUT /external/api/v1/orders/{id}/status/ updateOrderStatus Update order status
+  reason: Operations relay order state transitions, mark ordered items out of stock and track rider status/location
+    — order promising and fulfilment orchestration for delivery orders.
+- tag: Webhooks
+  spec_file: urbanpiper-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /external/api/v1/webhooks/ createWebhook Create a webhook; POST /external/api/v1/webhooks/retry/
+    Retry webhook order delivery
+  reason: Full lifecycle of outbound webhook subscriptions plus delivery retry, which is exactly the webhook
+    & event subscription management capability of a platform's developer/integration surface.
