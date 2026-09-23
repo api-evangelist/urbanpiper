@@ -1,11 +1,7 @@
 {
   "provider": "urbanpiper",
   "sources": [
-    "urbanpiper-aggregator-api-openapi.yml",
-    "urbanpiper-menu-api-openapi.yml",
-    "urbanpiper-orders-api-openapi.yml",
-    "urbanpiper-stores-api-openapi.yml",
-    "urbanpiper-webhooks-api-openapi.yml"
+    "_original/urbanpiper-openapi.yml"
   ],
   "outputs": [
     "urbanpiper-aggregator-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "urbanpiper-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "urbanpiper-aggregator-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "urbanpiper-menu-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "urbanpiper-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "urbanpiper-stores-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "urbanpiper-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

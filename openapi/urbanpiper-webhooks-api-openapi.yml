@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: UrbanPiper POS Integration Aggregator Webhooks API
-  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  title: UrbanPiper POS Integration Webhooks API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey :`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
   termsOfService: https://www.urbanpiper.com/terms-of-service
   contact:
     name: UrbanPiper POS Support
@@ -126,6 +126,13 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
   schemas:
     StatusResponse:
       type: object
@@ -145,13 +152,6 @@ components:
           type: string
         active:
           type: boolean
-  responses:
-    Unauthorized:
-      description: Missing or invalid Authorization header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/StatusResponse'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: UrbanPiper POS Integration Aggregator Menu API
-  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey <api_username>:<api_key>`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
+  title: UrbanPiper POS Integration Menu API
+  description: 'UrbanPiper''s POS-integration REST API connects a restaurant POS/ERP to online ordering aggregators (Swiggy, Zomato, UberEats, DoorDash, Deliveroo, Talabat, Amazon, Careem and others). It covers store/location management, catalogue and menu push, store and item/option availability toggles, order status updates and webhook registration. Authentication is a static API key passed as `Authorization: apikey :`; multi-brand requests also pass the `X-UPR-Biz-Id` header.'
   termsOfService: https://www.urbanpiper.com/terms-of-service
   contact:
     name: UrbanPiper POS Support
@@ -91,30 +91,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Authorization header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/StatusResponse'
   schemas:
-    Item:
-      type: object
-      properties:
-        ref_id:
-          type: string
-        name:
-          type: string
-        price:
-          type: number
-        sort_order:
-          type: integer
-        recommended:
-          type: boolean
-        available:
-          type: boolean
-          description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
     StatusResponse:
       type: object
       properties:
@@ -122,13 +99,6 @@ components:
           type: string
         message:
           type: string
-    ItemsUpsertRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
     Category:
       type: object
       properties:
@@ -179,6 +149,36 @@ components:
           type: array
           items:
             type: object
+    ItemsUpsertRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Item:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        sort_order:
+          type: integer
+        recommended:
+          type: boolean
+        available:
+          type: boolean
+          description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
