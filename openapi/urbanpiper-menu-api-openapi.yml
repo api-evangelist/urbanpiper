@@ -92,13 +92,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    StatusResponse:
+    ItemsUpsertRequest:
       type: object
       properties:
-        status:
-          type: string
-        message:
-          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
     Category:
       type: object
       properties:
@@ -149,13 +149,13 @@ components:
           type: array
           items:
             type: object
-    ItemsUpsertRequest:
+    StatusResponse:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
+        status:
+          type: string
+        message:
+          type: string
     Item:
       type: object
       properties:
