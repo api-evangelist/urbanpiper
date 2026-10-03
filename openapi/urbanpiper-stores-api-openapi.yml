@@ -91,6 +91,13 @@ components:
           type: array
           items:
             type: object
+    StoreUpsertRequest:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Store'
     LocationUpsertRequest:
       type: object
       properties:
@@ -112,13 +119,6 @@ components:
           type: string
         message:
           type: string
-    StoreUpsertRequest:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Store'
   responses:
     Unauthorized:
       description: Missing or invalid Authorization header.

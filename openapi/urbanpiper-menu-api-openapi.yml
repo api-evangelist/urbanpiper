@@ -92,13 +92,22 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ItemsUpsertRequest:
+    Item:
       type: object
       properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
+        ref_id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        sort_order:
+          type: integer
+        recommended:
+          type: boolean
+        available:
+          type: boolean
+          description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
     Category:
       type: object
       properties:
@@ -156,22 +165,13 @@ components:
           type: string
         message:
           type: string
-    Item:
+    ItemsUpsertRequest:
       type: object
       properties:
-        ref_id:
-          type: string
-        name:
-          type: string
-        price:
-          type: number
-        sort_order:
-          type: integer
-        recommended:
-          type: boolean
-        available:
-          type: boolean
-          description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
   responses:
     Unauthorized:
       description: Missing or invalid Authorization header.
