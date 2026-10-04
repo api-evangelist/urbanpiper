@@ -126,13 +126,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid Authorization header.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/StatusResponse'
   schemas:
     StatusResponse:
       type: object
@@ -152,6 +145,13 @@ components:
           type: string
         active:
           type: boolean
+  responses:
+    Unauthorized:
+      description: Missing or invalid Authorization header.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StatusResponse'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

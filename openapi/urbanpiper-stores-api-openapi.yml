@@ -63,6 +63,27 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    StoreUpsertRequest:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Store'
+    LocationUpsertRequest:
+      type: object
+      properties:
+        location_ref_id:
+          type: string
+          description: The unique identifier of the store in the POS/ERP system.
+        name:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        active:
+          type: boolean
     Store:
       type: object
       properties:
@@ -91,27 +112,6 @@ components:
           type: array
           items:
             type: object
-    StoreUpsertRequest:
-      type: object
-      properties:
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Store'
-    LocationUpsertRequest:
-      type: object
-      properties:
-        location_ref_id:
-          type: string
-          description: The unique identifier of the store in the POS/ERP system.
-        name:
-          type: string
-        city:
-          type: string
-        address:
-          type: string
-        active:
-          type: boolean
     StatusResponse:
       type: object
       properties:

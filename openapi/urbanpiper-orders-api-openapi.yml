@@ -114,6 +114,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
     OrderStatusUpdateRequest:
       type: object
       required:
@@ -139,13 +146,6 @@ components:
             rider_phone:
               type: string
               description: Rider phone, passed for self/merchant-delivered orders when marking Dispatched.
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid Authorization header.
