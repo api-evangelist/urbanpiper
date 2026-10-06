@@ -50,7 +50,7 @@ tags_raw:
 - Aggregators
 - Commerce
 created: '2026-06-21'
-modified: '2026-06-21'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: urbanpiper:urbanpiper-aggregator-api
@@ -195,6 +195,8 @@ apis:
     url: >-
       https://api-docs.urbanpiper.com/downstream/v/api-documentation/endpoints/getting-started/webhooks-callbacks
 common:
+- url: https://www.urbanpiper.com/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/urbanpiper-capability-edges.yml
   name: UrbanPiper Business Capability Map
