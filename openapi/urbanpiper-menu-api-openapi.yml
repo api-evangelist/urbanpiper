@@ -92,24 +92,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ItemsUpsertRequest:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-    Category:
-      type: object
-      properties:
-        ref_id:
-          type: string
-        name:
-          type: string
-        sort_order:
-          type: integer
-        active:
-          type: boolean
     MenuPushRequest:
       type: object
       properties:
@@ -149,6 +131,31 @@ components:
           type: array
           items:
             type: object
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+    Category:
+      type: object
+      properties:
+        ref_id:
+          type: string
+        name:
+          type: string
+        sort_order:
+          type: integer
+        active:
+          type: boolean
+    ItemsUpsertRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
     Item:
       type: object
       properties:
@@ -165,13 +172,6 @@ components:
         available:
           type: boolean
           description: Store-level availability. When set to false on a store-level request, only the item's availability at the store is turned off.
-    StatusResponse:
-      type: object
-      properties:
-        status:
-          type: string
-        message:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid Authorization header.
