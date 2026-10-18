@@ -1,0 +1,46 @@
+generated: '2026-10-18'
+method: searched
+checked:
+- doordash/integrations/doordash-integration-edges.yml
+source:
+- doordash/integrations/doordash-integration-edges.yml
+edges:
+- partner_name: Doordash (own)
+  partner: doordash
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://merchants.doordash.com/en-us/preferred-integrations/compare-integrations
+  mirror_of: doordash/integrations/doordash-integration-edges.yml
+  apps:
+  - UrbanPiper DoorDash integration
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Delivery marketplace integration (POS / middleware)
+  features:
+  - AUTO_ACTIVATE_SSIO
+  - DETAILED_ERROR_SPEC
+  - INTEGRATED_PROMOS
+  - ITEM_LEVEL_86
+  - ITEM_POLLING
+  - MENU_CONTAINS_ITEM_IMAGE_URL
+  - MENU_CONTAINS_ITEM_LEVEL_BASE_PRICE
+  - MENU_PULL_SUPPORTED
+  - MX_ORDER_CANCEL
+  - ORDER_CONFIRMATION_CONTAINS_PREP_TIME
+  - ORDER_PAYLOAD_SUPPORTS_MERCHANT_FUNDED_PROMO
+  - POS_PLUGIN
+  - RECEIVE_ORDER_CANCELLATION
+  - SSIO_INTEGRATION_ONBOARDING
+  - STAFF_TIPS
+  - STORE_AVAILABILITY_WEBHOOKS
+  - STORE_SPECIAL_HOURS
+  - SUPPORT_DASHER_NOTIFICATION_WEBHOOK
+  - SUPPORT_ORDER_READY_SIGNAL
+  publisher_verified:
+  - DoorDash Preferred Integration
